@@ -173,4 +173,21 @@ two_panel_df =
          x = "data value",
          y= "Response")
 ```
+#Problem 3
+#Load, tidy, and otherwise wrangle the data.
+```{r}
+accel_df = 
+  read_csv("accel_data.csv") %>%
+  janitor::clean_names() %>%
+  pivot_longer(activity_1:activity_1440,
+               names_to = "activity_order",
+               names_prefix = "activity_",
+               values_to = "activity_count") %>%
+  mutate(day = if_else(day %in% c("Saturday","Sunday"),"weekend","weekday"),
+          week = as.integer(week),
+         day_id = as.integer(day_id),
+         activity_order = as.integer(activity_order))
+```
+The dataset has `r ncol(accel_df)` variables, and `r nrow(accel_df)` observations. Each observation is about the activity counts for a specific minute from a 24-hour day and the information about that day, including the week, day_id, and whether it is a weekday or weekend.
+
 
