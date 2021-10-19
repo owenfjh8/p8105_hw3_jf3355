@@ -188,6 +188,10 @@ accel_df =
          day_id = as.integer(day_id),
          activity_order = as.integer(activity_order))
 ```
-The dataset has `r ncol(accel_df)` variables, and `r nrow(accel_df)` observations. Each observation is about the activity counts for a specific minute from a 24-hour day and the information about that day, including the week, day_id, and whether it is a weekday or weekend.
+The dataset has `r ncol(accel_df)` variables,including the week, day, day_id, minute of the day, day_type, and activity value.And `r nrow(accel_df)` observations. 
 
+#aggregate 
+```{r}
+
+```
 
