@@ -85,3 +85,16 @@ most_popular_item_df =
 knitr::kable(most_popular_item_df)
 ```
 
+#make another table
+```{r}
+mean_hour_df = 
+  instacart %>%
+  filter(days_since_prior_order == 0,
+         product_name == "Pink Lady Apples"|
+         product_name == "Coffee Ice Cream") %>%
+  mutate(mean_hour = mean(order_hour_of_day))%>%
+  select(product_name,mean_hour)
+           
+knitr::kable(mean_hour_df)
+```
+
