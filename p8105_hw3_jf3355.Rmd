@@ -180,18 +180,36 @@ accel_df =
   read_csv("accel_data.csv") %>%
   janitor::clean_names() %>%
   pivot_longer(activity_1:activity_1440,
-               names_to = "activity_order",
+               names_to = "minute",
                names_prefix = "activity_",
                values_to = "activity_count") %>%
-  mutate(day = if_else(day %in% c("Saturday","Sunday"),"weekend","weekday"),
-          week = as.integer(week),
-         day_id = as.integer(day_id),
-         activity_order = as.integer(activity_order))
+  mutate(day = if_else(day %in% c("Saturday","Sunday"),"weekend","weekday"))
 ```
-The dataset has `r ncol(accel_df)` variables,including the week, day, day_id, minute of the day, day_type, and activity value.And `r nrow(accel_df)` observations. 
+The dataset has `r ncol(accel_df)` variables,including the week, day, day_id, minute, and activity count.And `r nrow(accel_df)` observations. 
 
 #aggregate 
 ```{r}
+day_df = 
+  accel_df %>%
+  group_by(day_id)%>%
+  mutate(sum= sum(activity_count))%>%
+  group_by(week,day,sum)%>%
+  summarize()
 
+knitr::kable(day_df)
+```
+The Trend is not apparent.
+
+# Make a single-panel plot
+```{r}
+accel_df %>%
+  mutate(hour=as.numeric(minute)/60) %>%
+  group_by(day_id,hour) %>%
+  mutate(activity_time = sum(activity_count)) %>%
+  ggplot(aes(x=hour,y=activity_time,color=day_id))+geom_line()+
+  labs(title = "24 Hour activity time course for each day",
+       x = "hour",
+       y = "activity")
 ```
 
+From the plot, we can see that around 8pm, we get most activity.
