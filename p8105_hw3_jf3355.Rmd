@@ -69,4 +69,19 @@ instacart %>%
   )
 ```
 
+#make the table
+```{r}
+most_popular_item_df = 
+  instacart %>%
+  filter(aisle == "baking ingredients"|
+         aisle == "dog food care"|
+         aisle == "packaged vegetables fruits")%>%
+  group_by(aisle)%>%
+  count(product_name)%>%
+  rename(ordered_times = n)%>%
+  mutate(rank = min_rank(desc(ordered_times)))%>%
+  filter(rank < 4)%>%
+  arrange(aisle, rank)
+knitr::kable(most_popular_item_df)
+```
 
