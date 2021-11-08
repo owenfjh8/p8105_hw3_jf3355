@@ -147,7 +147,7 @@ In 2010,CA,CO,FL,MA,MD,NC,NE,NJ,NY,OH states were observed at 7 or more location
 #Make the plot of this average value over time within a state 
 
 ```{r}
-new_brfss_df= 
+new_brfss_df =  
   brfss_smart %>%
   filter(response == "Excellent") %>%
   group_by(year,state) %>%
@@ -159,10 +159,13 @@ new_brfss_df=
     x= "Year",
     y = "Mean of data value"
   )
+print(new_brfss_df)
+ggsave("new_brfss_df.pdf")
+
 ```
 # make a two-panel plot
 ```{r}
-two_panel_df = 
+two_panel_df =  
   brfss_smart %>%
   filter(year%in%c("2006","2010"),state == "NY") %>%
   group_by(year,response,data_value) %>%
@@ -172,6 +175,8 @@ two_panel_df =
            labs(title= "Response among locations in NY",
          x = "data value",
          y= "Response")
+print(two_panel_df)
+ggsave("two_panel_plot.pdf")
 ```
 #Problem 3
 #Load, tidy, and otherwise wrangle the data.
